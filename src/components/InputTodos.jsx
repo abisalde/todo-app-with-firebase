@@ -17,6 +17,7 @@ import {
     Paper,
     TableCell,
     withStyles,
+    Modal,
 } from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
 import EditIcon from '@material-ui/icons/Edit';
@@ -38,6 +39,14 @@ const useStyles = makeStyles((theme) => ({
     },
     icons: {
         padding: theme.spacing(0.5),
+    },
+    paper: {
+        position: 'absolute',
+        minWidth: 300,
+        backgroundColor: theme.palette.background.paper,
+        border: '2px solid #000',
+        padding: theme.spacing(2, 4, 3),
+        margin: theme.spacing('auto'),
     },
 }));
 
@@ -62,8 +71,25 @@ const StyledTableRow = withStyles((theme) => ({
 
 //--- Material UI Styled rules end here ---//
 
+function rand() {
+    return Math.round(Math.random() * 10) - 10;
+}
+
+function getModalStyle() {
+    const top = 50 + rand();
+    const left = 50 + rand();
+
+    return {
+        top: `${top}%`,
+        left: `${left}%`,
+        transform: `translate(-${top}%, -${left}%)`,
+    };
+}
+
 // The Exported Function
 const InputTodo = () => {
+    const classes = useStyles();
+
     const [todos, setTodos] = useState([]);
     const [name, setName] = useState('');
     const [listTodo, setListTodo] = useState('');
@@ -87,7 +113,25 @@ const InputTodo = () => {
         setListTodo('');
     };
 
-    const classes = useStyles();
+    const [modalStyle] = useState(getModalStyle);
+    const [open, setOpen] = useState(false);
+
+    const handleOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const body = (
+        <div style={modalStyle} className={classes.paper}>
+            <h2>Text in a modal</h2>
+            <p>
+                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+            </p>
+        </div>
+    );
     return (
         <React.Fragment>
             <form action='' className='input__todo'>
@@ -159,8 +203,17 @@ const InputTodo = () => {
                                         </StyledTableCell>
                                         <StyledTableCell align='center'>
                                             <EditIcon
+                                                onClick={handleOpen}
                                                 className={classes.icons}
                                             />
+                                            <Modal
+                                                open={open}
+                                                onClose={handleClose}
+                                                aria-labelledby='simple-modal-title'
+                                                aria-describedby='simple-modal-description'
+                                            >
+                                                {body}
+                                            </Modal>
                                             <DeleteForeverIcon
                                                 onClick={(e) =>
                                                     database
