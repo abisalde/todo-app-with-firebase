@@ -1,0 +1,41 @@
+
+
+.container {
+    display: flex;
+    width: 100vw;
+    justify-content: center;
+    min-height: 100vh;
+    background: transparent;
+}
+
+.list__todo {
+    width: 45%;
+    order: 2;
+    text-align: center;
+    margin: 4.125rem;
+}
+
+.input__todo {
+    width: 45%;
+    order: 1;
+    text-align: center;
+    display: flex;
+    flex-flow: column;
+    padding: 1rem;
+    margin: 6rem 2rem;
+}
+
+
+@media only screen and (min-device-width: 320px) and (max-width: 768px) {
+    .container {
+        display: flex;
+        flex-flow: column;
+}
+.list__todo, .input__todo {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2.512rem;
+    min-width: 20rem;
+}
+
+}
